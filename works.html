@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио — Birman</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface-hover: #1a1a1a;
+            --text: #e8e8e8;
+            --text-dim: #6b6b6b;
+            --border: #2a2a2a;
+            --accent: #ffffff;
+        }
+
+        /* Анимации при загрузке */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(232, 232, 232, 0); }
+            50% { box-shadow: 0 0 30px rgba(232, 232, 232, 0.1); }
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero анимация */
+        .hero-portfolio {
+            padding: 160px 0 80px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero-portfolio h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(40px, 6vw, 64px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+
+        .hero-portfolio p {
+            font-size: 18px;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.4s forwards;
+        }
+
+        /* Категории анимация */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 48px 0;
+            border-bottom: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .category-btn {
+            font-size: 14px;
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(232, 232, 232, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .category-btn:hover::before {
+            left: 100%;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            border-color: var(--text);
+            color: var(--text);
+            background: var(--surface);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 32px 0;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        nav {
+            display: flex;
+            gap: 48px;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: var(--text-dim);
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+        }
+
+        .hero-portfolio {
+            padding: 160px 0 80px;
+            text-align: center;
+        }
+
+        .hero-portfolio h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(40px, 6vw, 64px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .hero-portfolio p {
+            font-size: 18px;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 48px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-btn {
+            font-size: 14px;
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            border-color: var(--text);
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        /* Анимация галереи */
+        .portfolio-section {
+            padding: 80px 0;
+        }
+
+        .project-block {
+            margin-bottom: 120px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-header {
+            margin-bottom: 48px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease 0.2s;
+        }
+
+        .project-block.visible .project-header {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-header a {
+            transition: color 0.3s;
+        }
+
+        .project-header a:hover {
+            color: var(--text-dim);
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: var(--surface);
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-block.visible .gallery-item {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(1.02);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .project-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 700;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .project-gallery.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .project-gallery.cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: var(--surface);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--text);
+            color: var(--bg);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: var(--surface-hover);
+            border-color: var(--text-dim);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev { left: 24px; }
+        .lightbox-next { right: 24px; }
+
+        footer {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .footer-bottom {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-dim);
+            margin-bottom: 32px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+
+        @media (max-width: 1024px) {
+            .project-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 24px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .categories {
+                gap: 8px;
+            }
+
+            .category-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .project-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Birman</a>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="works.html" class="active">Портфолио</a>
+                <a href="index.html#contact">Контакты</a>
+            </nav>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-portfolio">
+        <div class="container">
+            <h1>Портфолио</h1>
+            <p>AI-визуалы, видео и рекламные материалы</p>
+        </div>
+    </section>
+
+    <div class="categories">
+        <button class="category-btn active" data-category="all">Все</button>
+        <button class="category-btn" data-category="character">Консистентность персонажа</button>
+        <button class="category-btn" data-category="promotional">Рекламные снимки</button>
+        <button class="category-btn" data-category="imagery">Имиджи</button>
+        <button class="category-btn" data-category="video">Video</button>
+        <button class="category-btn" data-category="igaming">iGaming</button>
+        <button class="category-btn" data-category="avatar">Аватар</button>
+    </div>
+
+    <section class="portfolio-section">
+        <div class="container">
+            <!-- Консистентность персонажа -->
+            <div class="project-block" data-category="character">
+                <div class="project-header">
+                    <span class="project-label">Project</span>
+                    <h2 class="project-title"><a href="character.html">Консистентность персонажа →</a></h2>
+                </div>
+                <div class="project-gallery">
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/1.jpeg" alt=""></a>
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/2.jpeg" alt=""></a>
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/3.jpg" alt=""></a>
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/4.jpeg" alt=""></a>
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/5.jpeg" alt=""></a>
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/6.jpeg" alt=""></a>
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/7.jpeg" alt=""></a>
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/8.jpeg" alt=""></a>
+                    <a href="character.html" class="gallery-item"><img src="Image/Character consistency/9.jpeg" alt=""></a>
+                </div>
+            </div>
+
+            <!-- Рекламные снимки -->
+            <div class="project-block" data-category="promotional">
+                <div class="project-header">
+                    <span class="project-label">Project</span>
+                    <h2 class="project-title"><a href="promotional.html">Рекламные снимки →</a></h2>
+                </div>
+                
+                <!-- TOPTOP -->
+                <div class="project-block" style="margin-bottom: 80px;">
+                    <div class="project-header">
+                        <span class="project-label">Brand</span>
+                        <h3 class="project-title" style="font-size: 28px;"><a href="promotional.html#toptop">TOPTOP →</a></h3>
+                    </div>
+                    <div class="project-gallery cols-4">
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/TOPTOP/1.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/TOPTOP/2.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/TOPTOP/3.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/TOPTOP/4.jpg" alt=""></a>
+                    </div>
+                </div>
+
+                <!-- Prado -->
+                <div class="project-block" style="margin-bottom: 80px;">
+                    <div class="project-header">
+                        <span class="project-label">Brand</span>
+                        <h3 class="project-title" style="font-size: 28px;"><a href="promotional.html#prado">Prado →</a></h3>
+                    </div>
+                    <div class="project-gallery cols-4">
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Prado/1_WM.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Prado/2_WM.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Prado/3_WM.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Prado/4_WM.jpg" alt=""></a>
+                    </div>
+                </div>
+
+                <!-- Aquatic -->
+                <div class="project-block" style="margin-bottom: 80px;">
+                    <div class="project-header">
+                        <span class="project-label">Brand</span>
+                        <h3 class="project-title" style="font-size: 28px;"><a href="promotional.html#aquatic">Aquatic →</a></h3>
+                    </div>
+                    <div class="project-gallery cols-4">
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Aquatic/1.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Aquatic/2.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Aquatic/3.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Aquatic/4.jpg" alt=""></a>
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Aquatic/5.jpg" alt=""></a>
+                    </div>
+                </div>
+
+                <!-- Dietary Supplements -->
+                <div class="project-block" style="margin-bottom: 80px;">
+                    <div class="project-header">
+                        <span class="project-label">Brand</span>
+                        <h3 class="project-title" style="font-size: 28px;"><a href="promotional.html#dietary">Dietary Supplements →</a></h3>
+                    </div>
+                    <div class="project-gallery cols-4">
+                        <a href="promotional.html" class="gallery-item"><img src="Image/Promotional photos/Dietary Supplements/hf_20260205_235558_7c1009bf-d449-4424-a1e1-42c998c17bc9.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Имиджи -->
+            <div class="project-block" data-category="imagery">
+                <div class="project-header">
+                    <span class="project-label">Project</span>
+                    <h2 class="project-title"><a href="imagery.html">Имиджи →</a></h2>
+                </div>
+                <div class="project-gallery">
+                    <a href="imagery.html" class="gallery-item"><img src="Image/Imagery/hf_20260410_043149_e0f998e3-9fa8-4d6e-a967-af7aa5378415.png" alt=""></a>
+                </div>
+            </div>
+
+            <!-- Video -->
+            <div class="project-block" data-category="video">
+                <div class="project-header">
+                    <span class="project-label">Project</span>
+                    <h2 class="project-title"><a href="video.html">Video →</a></h2>
+                </div>
+                <div class="project-gallery cols-3">
+                    <a href="video.html" class="gallery-item"><img src="Image/Video/01.jpg" alt=""></a>
+                    <a href="video.html" class="gallery-item"><img src="Image/Video/02.jpg" alt=""></a>
+                    <a href="video.html" class="gallery-item"><img src="Image/Video/03.jpg" alt=""></a>
+                    <a href="video.html" class="gallery-item"><img src="Image/Video/04.jpg" alt=""></a>
+                    <a href="video.html" class="gallery-item"><img src="Image/Video/05.jpg" alt=""></a>
+                    <a href="video.html" class="gallery-item"><img src="Image/Video/06.jpg" alt=""></a>
+                </div>
+            </div>
+
+            <!-- iGaming -->
+            <div class="project-block" data-category="igaming">
+                <div class="project-header">
+                    <span class="project-label">Project</span>
+                    <h2 class="project-title"><a href="igaming.html">iGaming →</a></h2>
+                </div>
+                <div class="project-gallery cols-4">
+                    <a href="igaming.html" class="gallery-item"><img src="Image/iGaming/1_WM.jpg" alt=""></a>
+                    <a href="igaming.html" class="gallery-item"><img src="Image/iGaming/2_WM.jpg" alt=""></a>
+                    <a href="igaming.html" class="gallery-item"><img src="Image/iGaming/3_WM.jpg" alt=""></a>
+                    <a href="igaming.html" class="gallery-item"><img src="Image/iGaming/4_WM.jpg" alt=""></a>
+                    <a href="igaming.html" class="gallery-item"><img src="Image/iGaming/5_WM.jpg" alt=""></a>
+                    <a href="igaming.html" class="gallery-item"><img src="Image/iGaming/6_WM.jpg" alt=""></a>
+                    <a href="igaming.html" class="gallery-item"><img src="Image/iGaming/7_WM.jpg" alt=""></a>
+                    <a href="igaming.html" class="gallery-item"><img src="Image/iGaming/8_WM.jpg" alt=""></a>
+                </div>
+            </div>
+
+            <!-- Аватар -->
+            <div class="project-block" data-category="avatar">
+                <div class="project-header">
+                    <span class="project-label">Project</span>
+                    <h2 class="project-title"><a href="avatar.html">Аватар →</a></h2>
+                </div>
+                <div class="project-gallery">
+                    <a href="avatar.html" class="gallery-item" style="display: flex; align-items: center; justify-content: center; color: var(--text-dim);">В разработке</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">×</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">Birman</div>
+            <p class="footer-bottom">© 2026 Birman. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Анимация при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-block').forEach(block => {
+            observer.observe(block);
+        });
+
+        // Category filtering
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const projectBlocks = document.querySelectorAll('.project-block');
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.dataset.category;
+                
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                projectBlocks.forEach(block => {
+                    if (category === 'all' || block.dataset.category === category) {
+                        block.style.display = 'block';
+                    } else {
+                        block.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        
+        let currentIndex = 0;
+        let visibleImages = [];
+
+        function updateVisibleImages() {
+            visibleImages = [];
+            document.querySelectorAll('.project-block[style="display: block"], .project-block:not([style])').forEach(block => {
+                block.querySelectorAll('.gallery-item img').forEach(img => {
+                    visibleImages.push(img);
+                });
+            });
+        }
+
+        galleryItems.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                updateVisibleImages();
+                currentIndex = visibleImages.indexOf(img);
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+
+        lightboxPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + visibleImages.length) % visibleImages.length;
+            lightboxImg.src = visibleImages[currentIndex].src;
+        });
+
+        lightboxNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % visibleImages.length;
+            lightboxImg.src = visibleImages[currentIndex].src;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') lightbox.classList.remove('active');
+            if (e.key === 'ArrowLeft') currentIndex = (currentIndex - 1 + visibleImages.length) % visibleImages.length;
+            if (e.key === 'ArrowRight') currentIndex = (currentIndex + 1) % visibleImages.length;
+            lightboxImg.src = visibleImages[currentIndex].src;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекламные снимки — Birman</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+      --bg: #0a0a0a; --surface: #141414; --text: #e8e8e8; --text-dim: #6b6b6b; --border: #2a2a2a; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.6; }
+        a { color: inherit; text-decoration: none; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 48px; }
+
+        header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 32px 0; background: var(--bg); border-bottom: 1px solid var(--border); }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
+        nav { display: flex; gap: 48px; }
+        nav a { font-size: 14px; color: var(--text-dim); transition: color 0.3s; }
+        nav a:hover, nav a.active { color: var(--text); }
+        .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+        .menu-toggle span { width: 24px; height: 2px; background: var(--text); }
+
+        .hero-project { padding: 160px 0 60px; }
+        .hero-project h1 { font-family: 'Syne', sans-serif; font-size: clamp(40px, 6vw, 64px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 24px; }
+        .hero-project p { font-size: 18px; color: var(--text-dim); max-width: 600px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-dim); margin-bottom: 32px; transition: color 0.3s; }
+        .back-link:hover { color: var(--text); }
+
+        .project-section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+        .project-section:last-child { border-bottom: none; }
+        .project-section h2 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+        .project-section .brand-label { font-size: 12px; letter-spacing: 0.3em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 32px; display: block; }
+
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .gallery-item { aspect-ratio: 1; background: var(--surface); overflow: hidden; cursor: pointer; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .gallery-item:hover img { transform: scale(1.05); }
+
+        .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .lightbox.active { display: flex; opacity: 1; }
+        .lightbox img { max-width: 90%; max-height: 90vh; object-fit: contain; }
+        .lightbox-close { position: absolute; top: 24px; right: 24px; width: 48px; height: 48px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 24px; cursor: pointer; }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 20px; cursor: pointer; }
+        .lightbox-prev { left: 24px; }
+        .lightbox-next { right: 24px; }
+
+        footer { padding: 60px 0; border-top: 1px solid var(--border); }
+        footer .container { display: flex; justify-content: space-between; align-items: flex-start; }
+        .footer-left { text-align: left; }
+        .footer-bottom { text-align: right; font-size: 13px; color: var(--text-dim); }
+        .footer-logo { font-family: 'DM Sans', sans-serif; font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+        .footer-info { font-size: 14px; color: var(--text-dim); margin-bottom: 4px; }
+        .footer-bottom { font-size: 13px; color: var(--text-dim); }
+
+        @media (max-width: 1024px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            nav { display: none; }
+            .menu-toggle { display: flex; }
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Birman</a>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="index.html#contact">Контакты</a>
+            </nav>
+            <div class="menu-toggle"><span></span><span></span><span></span></div>
+        </div>
+    </header>
+
+    <section class="hero-project">
+        <div class="container">
+            <a href="index.html" class="back-link">← На главную</a>
+            <h1>Рекламные снимки</h1>
+            <p>Коммерческие визуалы для брендов. AI-генерация позволяет создавать рекламные кампании без съёмки, существенно сокращая бюджет и время production. Один запрос — десятки готовых концептов в едином стиле бренда.</p>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <div class="container">
+            <!-- TOPTOP -->
+            <div class="project-section">
+                <span class="brand-label">Brand</span>
+                <h2>TOPTOP</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item"><img src="Image/Promotional photos/TOPTOP/1.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/TOPTOP/2.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/TOPTOP/3.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/TOPTOP/4.jpg" alt=""></div>
+                </div>
+            </div>
+
+            <!-- Prado -->
+            <div class="project-section">
+                <span class="brand-label">Brand</span>
+                <h2>Prado</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item"><img src="Image/Promotional photos/Prado/1_WM.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Prado/2_WM.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Prado/3_WM.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Prado/4_WM.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Prado/05.png" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Prado/06.png" alt=""></div>
+                </div>
+            </div>
+
+            <!-- Aquatic -->
+            <div class="project-section">
+                <span class="brand-label">Brand</span>
+                <h2>Aquatic</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item"><img src="Image/Promotional photos/Aquatic/1.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Aquatic/2.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Aquatic/3.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Aquatic/4.jpg" alt=""></div>
+                    <div class="gallery-item"><img src="Image/Promotional photos/Aquatic/5.jpg" alt=""></div>
+                </div>
+            </div>
+
+            <!-- Dietary Supplements -->
+            <div class="project-section">
+                <span class="brand-label">Brand</span>
+                <h2>Dietary Supplements</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item"><img src="Image/Promotional photos/Dietary Supplements/hf_20260205_235558_7c1009bf-d449-4424-a1e1-42c998c17bc9.png" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">×</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+<footer>
+        <div class="container">
+            <div class="footer-left">
+                <div class="footer-logo">Gips Birman</div>
+                <p class="footer-info">digital AI Artist | Senior AI Creator</p>
+                <p class="footer-info">Санкт-Петербург, Россия</p>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Birman. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const images = document.querySelectorAll('.gallery-item img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        let currentIndex = 0;
+
+        images.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                currentIndex = index;
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        document.getElementById('lightboxClose').addEventListener('click', () => lightbox.classList.remove('active'));
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('active'); });
+        document.getElementById('lightboxPrev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentIndex].src;
+        });
+        document.getElementById('lightboxNext').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            lightboxImg.src = images[currentIndex].src;
+        });
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') lightbox.classList.remove('active');
+            if (e.key === 'ArrowLeft') currentIndex = (currentIndex - 1 + images.length) % images.length;
+            if (e.key === 'ArrowRight') currentIndex = (currentIndex + 1) % images.length;
+            lightboxImg.src = images[currentIndex].src;
+        });
+    </script>
+<a href="https://t.me/Gips_Birman" class="tg-float" target="_blank" aria-label="Написать в Telegram">
+    <i class="fab fa-telegram-plane"></i>
+</a>
+<style>
+.tg-float { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.4); transition: all 0.3s ease; z-index: 1000; color: #0a0a0a; }
+.tg-float:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+.tg-float i { font-size: 24px; color: #0a0a0a; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
